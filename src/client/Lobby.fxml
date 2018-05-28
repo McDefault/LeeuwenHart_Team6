@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane id="pane" fx:id="lobby" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../CSS/style.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.LobbyController">
+   <children>
+      <VBox layoutX="909.0" layoutY="459.0" prefHeight="200.0" prefWidth="175.0" AnchorPane.leftAnchor="909.0" AnchorPane.rightAnchor="836.0">
+         <children>
+            <Label alignment="CENTER" prefHeight="18.0" prefWidth="178.0" text="Players:">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Label>
+            <Label fx:id="player1" alignment="CENTER" prefHeight="30.0" prefWidth="222.0">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Label>
+            <Label fx:id="player2" alignment="CENTER" prefHeight="30.0" prefWidth="230.0">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Label>
+            <Label fx:id="player3" alignment="CENTER" prefHeight="30.0" prefWidth="263.0">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Label>
+            <Label fx:id="player4" alignment="CENTER" prefHeight="30.0" prefWidth="298.0">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
