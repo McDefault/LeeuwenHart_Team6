@@ -25,20 +25,21 @@ public class GameServer extends UnicastRemoteObject implements GameServerInterfa
 	private static final long serialVersionUID = 1L;
 	// A list of registered listener clients
 	private ArrayList<TurnListenInterface> turnListeners = new ArrayList<TurnListenInterface>();
+	private ArrayList<Player> players = new ArrayList<Player>();
 	// Port where RMI Registry listens
 	private int port = 1099;
 	
 	public GameServer() throws RemoteException {
 
-		System.out.println("Server: ChatServer v2.0 starting up...");
+		System.out.println("Server: GameServer v2.0 starting up...");
 
 		try {
 			// Connect to RMI Registry
 			LocateRegistry.createRegistry(port);
 			System.out.println("Server: connected to RMI registry.");
 			// Register this server object in the RMI Registry
-			Naming.rebind("ChatService", this);
-			System.out.println("Server: server registered as \'ChatService\' in RMI registry.");
+			Naming.rebind("GameService", this);
+			System.out.println("Server: server registered as \'GameService\' in RMI registry.");
 		} catch (MalformedURLException mfue) {
 			System.out.println(mfue);
 		} catch (RemoteException re){
@@ -51,15 +52,25 @@ public class GameServer extends UnicastRemoteObject implements GameServerInterfa
 	 */
 	public static void main(String args[]) throws Exception {
 		GameServer gameServer = new GameServer();
-		System.out.println("Server: ChatServer running.");
-		Game game = new Game();
+		System.out.println("Server: Server running.");
+//		Game game = new Game();
 		System.out.println("Server: Creating new board. Waiting for players to connect.");
 		//wait for all ready.
 		
 	}
-
+	
 	/**
-	 *	Receive message from ChatSend object and resent to all registered ChatListen objects
+	 *	Receive player from PlayerSend object and resent to all registered PlayerListen objects
+	 */
+	public synchronized void notifyObservers(Player player) throws RemoteException {
+		System.out.println("Server: notifying all listening clients");
+	    for (TurnListenInterface client : turnListeners) {
+	    	client.update(player);
+	    }
+	}
+	
+	/**
+	 *	Receive message from TurnSend object and resent to all registered TurnListen objects
 	 */
 	public synchronized void notifyObservers(Turn turn) throws RemoteException {
 		System.out.println("Server: notifying all listening clients");
@@ -67,6 +78,8 @@ public class GameServer extends UnicastRemoteObject implements GameServerInterfa
 	    	client.update(turn);
 	    }
 	}
+	
+	
 
 	/**
 	 *	Register a ChatListen object as an observer
@@ -87,11 +100,20 @@ public class GameServer extends UnicastRemoteObject implements GameServerInterfa
 		System.out.println("Server: listener removed");
 	}
 
+	public synchronized void receivePlayer(Player player) {
+		System.out.println("GameServer: received joining player:" + player.getName());
+		// notify listeners.
+		try {
+			this.notifyObservers(player);
+
+		} catch (RemoteException re) {
+
+		}
+	}
 
 	/**
 	 *	Receive turn from client and notify all listeners
 	 */
-	@Override
 	public synchronized void receiveTurn(Player player, Turn turn){
 		System.out.println("GameServer: received turn:");
 		// notify listeners.
@@ -102,4 +124,17 @@ public class GameServer extends UnicastRemoteObject implements GameServerInterfa
 
 		}
 	}
+
+//	@Override
+//	public void receivePlayer(Player player) {
+//		System.out.println("GameServer: received player: " + player.getName());
+//		// notify listeners.
+//		try {
+//			this.notifyObservers(player);
+//
+//		} catch (RemoteException re) {
+//
+//		}
+//		
+//	}
 }

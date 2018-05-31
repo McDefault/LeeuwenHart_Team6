@@ -1,6 +1,10 @@
 package client;
 
 
+import java.net.MalformedURLException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -20,12 +24,12 @@ public class LoginController {
 	
 	
     @FXML
-    public void handleLogin(ActionEvent event) {
+    public void handleLogin(ActionEvent event) throws RemoteException, MalformedURLException, NotBoundException {
     	System.out.println(serverIp.getText());
     	System.out.println(username.getText());
     	System.out.println("Getting access to the registry");
     	this.login.setScaleX(100);
-    	
+
     	
     }
     

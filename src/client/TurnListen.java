@@ -6,6 +6,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import server.GameServerInterface;
+import server.Player;
 import server.Turn;
 import server.TurnListenInterface;
 
@@ -13,7 +14,11 @@ public class TurnListen extends UnicastRemoteObject implements TurnListenInterfa
 
 	protected TurnListen() throws RemoteException {
 		super();
-		// TODO Auto-generated constructor stub
+		String serverAddress;
+		serverAddress = "127.0.0.1";
+		
+		new TurnListen(serverAddress);
+		System.out.println("ChatListen: ready to receive messages from server at " + serverAddress);
 	}
 	
 	/**
@@ -62,9 +67,15 @@ public class TurnListen extends UnicastRemoteObject implements TurnListenInterfa
 		} else { // no cmd line args given, use default server address
 			serverAddress = "127.0.0.1";
 		}
-
+		serverAddress = "127.0.0.1";
 		new TurnListen(serverAddress);
 		System.out.println("ChatListen: ready to receive messages from server at " + serverAddress);
+	}
+
+	@Override
+	public void update(Player player) throws RemoteException {
+		// TODO Auto-generated method stub
+		System.out.println("PlayerListen: joined.");
 	}
 
 

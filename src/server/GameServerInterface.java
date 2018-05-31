@@ -11,6 +11,8 @@ public interface GameServerInterface extends Remote {
     void registerObserver(TurnListenInterface listen) throws RemoteException;
 	// unregisterObserver a listener  (listener client)
 	void unregisterObserver(TurnListenInterface listen) throws RemoteException;
-	// receive message from a client
+	// receive player from a client
+	void receivePlayer(Player player) throws RemoteException;
+	// receive turn from a client
 	void receiveTurn(Player player, Turn turn) throws RemoteException;
 }
