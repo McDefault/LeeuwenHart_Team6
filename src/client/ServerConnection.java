@@ -18,9 +18,10 @@ public class ServerConnection {
 	ServerConnection() throws RemoteException, MalformedURLException, NotBoundException {
 		
 		String host = "127.0.0.1";	
+		System.out.println("ServerConnection: looking up ChatServer in RMI Registry...");
 		this.server = (GameServerInterface) Naming.lookup("//" + host +"/GameService");
 		// Get reference to remote object, i.e. the server object (which will consume the message)
-//		System.out.println("ChatSend: looked up server in RMI Registry; \'ChatService\'");
+		System.out.println("ServerConnection: looked up server in RMI Registry; \'GameService\'");
 	}
 	
 	GameServerInterface getConnection() {

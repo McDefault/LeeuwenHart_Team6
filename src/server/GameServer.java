@@ -60,22 +60,12 @@ public class GameServer extends UnicastRemoteObject implements GameServerInterfa
 	}
 	
 	/**
-	 *	Receive player from PlayerSend object and resent to all registered PlayerListen objects
-	 */
-	public synchronized void notifyObservers(Player player) throws RemoteException {
-		System.out.println("Server: notifying all listening clients");
-	    for (TurnListenInterface client : turnListeners) {
-	    	client.update(player);
-	    }
-	}
-	
-	/**
 	 *	Receive message from TurnSend object and resent to all registered TurnListen objects
 	 */
-	public synchronized void notifyObservers(Turn turn) throws RemoteException {
+	public synchronized void notifyObservers(Player player, Turn turn) throws RemoteException {
 		System.out.println("Server: notifying all listening clients");
 	    for (TurnListenInterface client : turnListeners) {
-	    	client.update(turn);
+	    	client.update(player, turn);
 	    }
 	}
 	
@@ -86,7 +76,7 @@ public class GameServer extends UnicastRemoteObject implements GameServerInterfa
 	 */
 	public synchronized void registerObserver(TurnListenInterface listener) throws RemoteException {
 		System.out.println("Server: adding listener");
-//		this.chatListeners.add(listener);
+		this.turnListeners.add(listener);
 		System.out.println("Server: listener added");
 	}
 
@@ -100,17 +90,6 @@ public class GameServer extends UnicastRemoteObject implements GameServerInterfa
 		System.out.println("Server: listener removed");
 	}
 
-	public synchronized void receivePlayer(Player player) {
-		System.out.println("GameServer: received joining player:" + player.getName());
-		// notify listeners.
-		try {
-			this.notifyObservers(player);
-
-		} catch (RemoteException re) {
-
-		}
-	}
-
 	/**
 	 *	Receive turn from client and notify all listeners
 	 */
@@ -118,23 +97,10 @@ public class GameServer extends UnicastRemoteObject implements GameServerInterfa
 		System.out.println("GameServer: received turn:");
 		// notify listeners.
 		try {
-			this.notifyObservers(turn);
+			this.notifyObservers(player, turn);
 
 		} catch (RemoteException re) {
-
+			System.out.println("Server: Failed to notify listners");
 		}
 	}
-
-//	@Override
-//	public void receivePlayer(Player player) {
-//		System.out.println("GameServer: received player: " + player.getName());
-//		// notify listeners.
-//		try {
-//			this.notifyObservers(player);
-//
-//		} catch (RemoteException re) {
-//
-//		}
-//		
-//	}
 }

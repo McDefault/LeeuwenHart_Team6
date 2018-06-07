@@ -6,8 +6,10 @@ import java.rmi.RemoteException;
 public interface TurnListenInterface extends Remote {
 
 	// Registry GameClient with server, to be able to receive message from the server
-	void update(Player player)  throws RemoteException;
+//	void update(Player player)  throws RemoteException;
 	
 	// Registry GameClient with server, to be able to receive message from the server
-	void update(Turn turn)  throws RemoteException;
+	void update(Player player, Turn turn)  throws RemoteException;
+	
+	void setNaam(String string)  throws RemoteException;
 }
